@@ -1,4 +1,6 @@
 from app.common.http_methods import GET, POST
+from app.common.utils import remove_null_order_details
+
 from flask import Blueprint, jsonify, request
 
 from ..controllers import OrderController
@@ -17,7 +19,7 @@ def create_order():
 @order.route('/id/<_id>', methods=GET)
 def get_order_by_id(_id: int):
     order, error = OrderController.get_by_id(_id)
-    response = order if not error else {'error': error}
+    response = remove_null_order_details(order) if not error else {'error': error}
     status_code = 200 if order else 404 if not error else 400
     return jsonify(response), status_code
 
