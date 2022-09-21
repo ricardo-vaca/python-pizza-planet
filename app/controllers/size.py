@@ -1,5 +1,5 @@
-from ..repositories.managers import SizeManager
 from .base import BaseController
+from ..repositories.managers import SizeManager
 
 
 class SizeController(BaseController):

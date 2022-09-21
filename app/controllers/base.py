@@ -1,5 +1,6 @@
 from typing import Any, Optional, Tuple
 from sqlalchemy.exc import SQLAlchemyError
+
 from ..repositories.managers import BaseManager
 
 
