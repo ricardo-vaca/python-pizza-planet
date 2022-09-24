@@ -6,11 +6,11 @@ from ..serializers import IngredientSerializer
 
 
 class IngredientManager(BaseManager):
-    model = Ingredient
-    serializer = IngredientSerializer
+    def __init__(self):
+        super().__init__(model=Ingredient, serializer=IngredientSerializer)
+        self.model = Ingredient
 
-    @classmethod
-    def get_by_id_list(cls, ids: Sequence):
-        return cls.session.query(cls.model).filter(
-            cls.model._id.in_(set(ids))
+    def get_by_id_list(self, ids: Sequence):
+        return self.session.query(self.model).filter(
+            self.model._id.in_(set(ids))
         ).all() or []

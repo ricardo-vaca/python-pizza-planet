@@ -81,6 +81,8 @@ class DataSeeder(Seeder):
                     ingredients[rand_id]['price']
                 orders[order_detail.order_id -
                        1].total_price += order_detail.ingredient_price
+                orders[order_detail.order_id - 1].total_price = \
+                    round(orders[order_detail.order_id - 1].total_price, 2)
 
             else:
                 rand_id = randint(0, 4)
@@ -90,6 +92,8 @@ class DataSeeder(Seeder):
                     beverages[rand_id]['price']
                 orders[order_detail.order_id -
                        1].total_price += order_detail.beverage_price
+                orders[order_detail.order_id - 1].total_price = \
+                    round(orders[order_detail.order_id - 1].total_price, 2)
 
         return store
 

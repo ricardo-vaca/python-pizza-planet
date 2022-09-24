@@ -7,13 +7,14 @@ from ...plugins import db
 
 
 class ReportManager:
-    serializer = OrderSerializer
-    session = db.session
 
-    @classmethod
-    def get_top_ingredient(cls):
-        serializer = cls.serializer(many=True)
-        entry = cls.session.query(
+    def __init__(self):
+        self.serializer = OrderSerializer
+        self.session = db.session
+
+    def get_top_ingredient(self):
+        serializer = self.serializer(many=True)
+        entry = self.session.query(
             (Ingredient.name).label('name'),
             func.count(OrderDetail._id).label('total'),
         ).group_by(
@@ -23,10 +24,9 @@ class ReportManager:
         ).limit(1)
         return serializer.dump(entry)[0]
 
-    @classmethod
-    def get_top_beverage(cls):
-        serializer = cls.serializer(many=True)
-        entry = cls.session.query(
+    def get_top_beverage(self):
+        serializer = self.serializer(many=True)
+        entry = self.session.query(
             (Beverage.name).label('name'),
             func.count(OrderDetail._id).label('total'),
         ).group_by(
@@ -36,10 +36,9 @@ class ReportManager:
         ).limit(1)
         return serializer.dump(entry)[0]
 
-    @classmethod
-    def get_top_3_customers(cls):
-        serializer = cls.serializer(many=True)
-        entry = cls.session.query(
+    def get_top_3_customers(self):
+        serializer = self.serializer(many=True)
+        entry = self.session.query(
             Order.client_name,
             func.count(Order._id).label('total'),
         ).group_by(
@@ -49,10 +48,9 @@ class ReportManager:
         ).limit(3)
         return serializer.dump(entry)
 
-    @classmethod
-    def get_top_month(cls):
-        serializer = cls.serializer(many=True)
-        entry = cls.session.query(
+    def get_top_month(self):
+        serializer = self.serializer(many=True)
+        entry = self.session.query(
             extract('month', Order.date).label('name'),
             func.sum(Order.total_price).label('total')
         ).group_by(

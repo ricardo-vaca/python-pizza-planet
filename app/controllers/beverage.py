@@ -3,4 +3,5 @@ from ..repositories.managers import BeverageManager
 
 
 class BeverageController(BaseController):
-    manager = BeverageManager
+    def __init__(self):
+        super().__init__(BeverageManager)

@@ -5,8 +5,10 @@ from ..managers import BaseManager
 
 class IndexManager(BaseManager):
 
-    @classmethod
-    def test_connection(cls):
-        cls.session.query(column('1')).from_statement(
+    def __init__(self, model=None, serializer=None):
+        super().__init__(model, serializer)
+
+    def test_connection(self):
+        self.session.query(column('1')).from_statement(
             text('SELECT 1')
         ).all()
