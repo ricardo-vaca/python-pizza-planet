@@ -7,9 +7,11 @@ from ..repositories.managers import (IngredientManager, OrderManager,
 
 
 class OrderController(BaseController):
-    manager = OrderManager
-    __required_info = ('client_name', 'client_dni',
-                       'client_address', 'client_phone', 'size_id')
+    def __init__(self):
+        super().__init__(OrderManager)
+        self.manager = OrderManager
+        self.required_info = ('client_name', 'client_dni',
+                              'client_address', 'client_phone', 'size_id')
 
     @staticmethod
     def calculate_order_price(
@@ -22,14 +24,13 @@ class OrderController(BaseController):
         price = size_price + beverages_price + ingredients_price
         return round(price, 2)
 
-    @classmethod
-    def create(cls, order: dict):
+    def create(self, order: dict):
         current_order = order.copy()
-        if not check_required_keys(cls.__required_info, current_order):
+        if not check_required_keys(self.required_info, current_order):
             return 'Invalid order payload', None
 
         size_id = current_order.get('size_id')
-        size = SizeManager.get_by_id(size_id)
+        size = SizeManager().get_by_id(size_id)
 
         if not size:
             return 'Invalid size for Order', None
@@ -37,12 +38,12 @@ class OrderController(BaseController):
         ingredient_ids = current_order.pop('ingredients', [])
         beverages_ids = current_order.pop('beverages', [])
         try:
-            ingredients = IngredientManager.get_by_id_list(ingredient_ids)
-            beverages = BeverageManager.get_by_id_list(beverages_ids)
-            price = cls.calculate_order_price(
+            ingredients = IngredientManager().get_by_id_list(ingredient_ids)
+            beverages = BeverageManager().get_by_id_list(beverages_ids)
+            price = self.calculate_order_price(
                 size.get('price'), ingredients, beverages)
             order_with_price = {**current_order, 'total_price': price}
-            return cls.manager.create(
+            return self.manager().create(
                 order_with_price,
                 ingredients,
                 beverages

@@ -3,4 +3,5 @@ from ..repositories.managers import IngredientManager
 
 
 class IngredientController(BaseController):
-    manager = IngredientManager
+    def __init__(self):
+        super().__init__(IngredientManager)

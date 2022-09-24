@@ -3,4 +3,5 @@ from ..repositories.managers import SizeManager
 
 
 class SizeController(BaseController):
-    manager = SizeManager
+    def __init__(self):
+        super().__init__(SizeManager)

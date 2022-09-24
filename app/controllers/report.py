@@ -5,15 +5,15 @@ from ..repositories.managers import ReportManager
 
 
 class ReportController:
-    manager = ReportManager
+    def __init__(self):
+        self.manager = ReportManager()
 
-    @classmethod
-    def get_all(cls) -> Tuple[Any, Optional[str]]:
+    def get_all(self) -> Tuple[Any, Optional[str]]:
         try:
-            top_ingredient = cls.manager.get_top_ingredient()
-            top_beverage = cls.manager.get_top_beverage()
-            top_3_customers = cls.manager.get_top_3_customers()
-            top_month = cls.manager.get_top_month()
+            top_ingredient = self.manager.get_top_ingredient()
+            top_beverage = self.manager.get_top_beverage()
+            top_3_customers = self.manager.get_top_3_customers()
+            top_month = self.manager.get_top_month()
             return {
                 'top_ingredient': top_ingredient,
                 'top_beverage': top_beverage,

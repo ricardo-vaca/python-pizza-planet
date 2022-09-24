@@ -4,5 +4,6 @@ from ..serializers import SizeSerializer
 
 
 class SizeManager(BaseManager):
-    model = Size
-    serializer = SizeSerializer
+    def __init__(self):
+        super().__init__(model=Size, serializer=SizeSerializer)
+        self.model = Size
