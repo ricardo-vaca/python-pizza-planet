@@ -21,5 +21,8 @@ class OrderSerializer(ma.SQLAlchemyAutoSchema):
             'date',
             'total_price',
             'size',
-            'detail'
+            'detail',
+            
+            'total',
+            'name'
         )
